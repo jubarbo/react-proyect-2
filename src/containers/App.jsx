@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Header from '../components/Header';
 import Search from '../components/Search';
 import Categories from '../components/Categories';
@@ -6,29 +6,20 @@ import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
 import Footer from '../components/Footer';
 
-import '../assets/styles/App.scss'
+import useInitialState from '../hooks/useInitialState';
+
+import '../assets/styles/App.scss';
+
+const API = 'http://localhost:3000/initialState';
 
 const App = () => { 
-    const [videos, setVideos] = useState({ 
-        mylist: [], 
-        trends: [], 
-        originals: [] 
-    });
+    const initialState = useInitialState(API);
 
-
-    useEffect(() => {
-        fetch('http://localhost:3000/initialState')
-        .then(response => response.json())
-        .then(data => setVideos({...videos, ...data}))
-    }, []);
-
-    console.log(videos.mylist.length);
-
-    return (
+    return initialState.length === 0 ? <h1>Loading...</h1> : (
         <div className="App">
             <Header />
             <Search />
-            { videos.mylist.length > 0 &&
+            { initialState.mylist.length > 0 &&
 
             <Categories title="Lista 1">
                 <Carousel>
@@ -41,7 +32,7 @@ const App = () => {
     
             <Categories title="Lista 4">
                 <Carousel>
-                    {videos.trends.map(item =>
+                    {initialState.trends.map(item =>
                     <CarouselItem key={item.id} {...item} />
                     )}
                 </Carousel>
