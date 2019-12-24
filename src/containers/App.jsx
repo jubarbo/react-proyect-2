@@ -1,43 +1,49 @@
-import React, {useState, useEffect} from 'react'
-import Header from '../components/Header'
-import Search from '../components/Search'
-import Categories from '../components/Categories'
-import Carousel from '../components/Carousel'
-import CarouselItem from '../components/CarouselItem'
-import Footer from '../components/Footer'
+import React, {useState, useEffect} from 'react';
+import Header from '../components/Header';
+import Search from '../components/Search';
+import Categories from '../components/Categories';
+import Carousel from '../components/Carousel';
+import CarouselItem from '../components/CarouselItem';
+import Footer from '../components/Footer';
 
 import '../assets/styles/App.scss'
 
-const App = () => {
+const App = () => { 
+    const [videos, setVideos] = useState({ 
+        mylist: [], 
+        trends: [], 
+        originals: [] 
+    });
 
-    const [videos , setVideos] = useState([]);
 
     useEffect(() => {
         fetch('http://localhost:3000/initialState')
         .then(response => response.json())
-        .then(data => setVideos(data))
+        .then(data => setVideos({...videos, ...data, estado:true}))
     }, []);
-    console.log(videos.trends.length);
+
+    console.log(videos.mylist.length);
+
     return (
         <div className="App">
             <Header />
             <Search />
-        
-        
+            { videos.mylist.length > 0 &&
+
             <Categories title="Lista 1">
                 <Carousel>
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-
+                    <CarouselItem />
                  
                 </Carousel>
             </Categories>
             }
+            
     
             <Categories title="Lista 4">
                 <Carousel>
-                    <CarouselItem />
+                    {videos.trends.map(item =>
+                    <CarouselItem key={item.id} {...item} />
+                    )}
                 </Carousel>
             </Categories>
     
