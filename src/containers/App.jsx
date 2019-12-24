@@ -40,14 +40,9 @@ const App = () => {
     
             <Categories title="Lista veinticinco">
                 <Carousel>
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
-                    <CarouselItem />
+                {initialState.trends.map(item =>
+                    <CarouselItem key={item.id} {...item} />
+                    )}
                 </Carousel>
             </Categories>
     
