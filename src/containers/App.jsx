@@ -19,7 +19,7 @@ const App = () => {
     useEffect(() => {
         fetch('http://localhost:3000/initialState')
         .then(response => response.json())
-        .then(data => setVideos({...videos, ...data, estado:true}))
+        .then(data => setVideos({...videos, ...data}))
     }, []);
 
     console.log(videos.mylist.length);
